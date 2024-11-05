@@ -11,3 +11,5 @@ const requestManager = axios.create({
 });
 
 export const createNewResume = data => requestManager.post('/user-resumes', data);
+
+export const getUserResumes = userEmail => requestManager.get(`/user-resumes?filters[userEmail][$eq]=${userEmail}`);

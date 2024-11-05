@@ -17,10 +17,12 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useUser } from "@clerk/clerk-react";
 import { createNewResume } from "../../../service/GlobalApi";
+import { useNavigate } from "react-router-dom";
 
 const AddResume = () => {
   const [resumeTitle, setResumeTitle] = useState('');
   const [isLoading, setLoading] = useState(false);
+  const navigation = useNavigate();
 
   const { user } = useUser();
   const onCreate = () => {
@@ -36,8 +38,10 @@ const AddResume = () => {
       }
     };
     createNewResume(data).then(resp => {
-      console.log("resp: ", resp);
+      const { data: { data: { documentId = '' } = {}  } = {} } = resp;
       setLoading(false);
+      resetDialogPayload();
+      navigation(`/dashboard/resume/${documentId}/edit`);
     }).catch(error => {
       setLoading(false);
       const { response: { statusText = '' } = {}, message = '' } = error;
@@ -45,7 +49,7 @@ const AddResume = () => {
     });
   };
 
-  const resetDialogPayload = status => {
+  const resetDialogPayload = (status = false)  => {
     if (!status) {
       setResumeTitle('');
       setLoading(false);
