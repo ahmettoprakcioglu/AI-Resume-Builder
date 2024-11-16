@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const ResumeCardItem = ({
   resume
 }) => {
-  const { title = '', resumeId = '' } = resume;
+  const { title = '', resume_id: resumeId = '' } = resume;
   return (
     <Link
       className="flex flex-col items-center w-full gap-2"

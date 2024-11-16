@@ -1,15 +1,29 @@
-import { default as axios } from 'axios';
+import supabase from "./supabase";
 
-const API_KEY = import.meta.env.VITE_STRAPI_API_KEY;
-
-const requestManager = axios.create({
-  baseURL: `${window.location.hostname === 'localhost' ? 'http://localhost:1337' : import.meta.env.VITE_API_BASE_URL}/api`,
-  headers: {
-    "Content-Type": 'application/json',
-    'Authorization': `Bearer ${API_KEY}`
+export async function createNewResume(payload) {
+  const { data, error } = await supabase
+    .from('user-resumes')
+    .insert([
+      payload,
+    ])
+    .select();
+  if (error) {
+    console.error(error);
+    throw new Error('Translation Notes could not be loaded');
   }
-});
 
-export const createNewResume = data => requestManager.post('/user-resumes', data);
+  return data[0];
+}
 
-export const getUserResumes = userEmail => requestManager.get(`/user-resumes?filters[userEmail][$eq]=${userEmail}`);
+export async function getUserResumes(user_id) {
+  const { data: userResumes, error } = await supabase
+    .from('user-resumes')
+    .select("*")
+    .eq('user_id', user_id);
+
+  if (error) {
+    console.error(error);
+    throw new Error('Translation Notes could not be loaded');
+  }
+  return userResumes;
+}

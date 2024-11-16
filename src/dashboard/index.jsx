@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { getUserResumes } from "../../service/GlobalApi";
 import { useUser } from "@clerk/clerk-react";
 
 import isEmpty from "lodash/isEmpty";
@@ -8,15 +7,16 @@ import isArray from "lodash/isArray";
 
 import AddResume from "./components/AddResume";
 import ResumeCardItem from "./components/ResumeCardItem";
+import { getUserResumes } from "../../service/GlobalApi";
 
 const Dashboard = () => {
   const { user = {} } = useUser();
   const [resumeList, setResumeList] = useState([]);
-  const { primaryEmailAddress: { emailAddress = '' } = {} } = user;
+  const { id: userID } = user;
 
   const getUserResumesList = () => {
-    getUserResumes(emailAddress).then(({ data: { data: respData = [] } = {} }) => {
-      setResumeList(respData);
+    getUserResumes(userID).then(resp => {
+      setResumeList(resp);
     }).catch(error => {
       const { response: { statusText = '' } = {}, message = '' } = error;
       console.error(statusText || message || 'An error occured.');

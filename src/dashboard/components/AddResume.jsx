@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Loader2, PlusSquare } from "lucide-react";
-import { v4 as uuidv4 } from 'uuid';
 
 import {
   Dialog,
@@ -27,21 +26,17 @@ const AddResume = () => {
   const { user } = useUser();
   const onCreate = () => {
     setLoading(true);
-    const { primaryEmailAddress: { emailAddress = '' }, fullName = '' } = user;
-    const uuid = uuidv4();
+    const { primaryEmailAddress: { emailAddress = '' }, fullName = '', id } = user;
     const data = {
-      data: {
-        title: resumeTitle,
-        resumeId: uuid,
-        userEmail: emailAddress,
-        userName: fullName
-      }
+      title: resumeTitle,
+      user_email: emailAddress,
+      user_name: fullName,
+      user_id: id
     };
-    createNewResume(data).then(resp => {
-      const { data: { data: { documentId = '' } = {}  } = {} } = resp;
+    createNewResume(data).then(({ resume_id: resumeID = '' }) => {
       setLoading(false);
       resetDialogPayload();
-      navigation(`/dashboard/resume/${documentId}/edit`);
+      navigation(`/dashboard/resume/${resumeID}/edit`);
     }).catch(error => {
       setLoading(false);
       const { response: { statusText = '' } = {}, message = '' } = error;
