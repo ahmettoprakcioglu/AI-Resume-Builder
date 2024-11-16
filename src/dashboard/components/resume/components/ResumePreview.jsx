@@ -7,7 +7,7 @@ import EducationalPreview from "./preview/EducationalPreview";
 import SkillsPreview from "./preview/SkillsPreview";
 
 const ResumePreview = () => {
-  const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
+  const { resumeInfo } = useContext(ResumeInfoContext);
   console.log("resumeInfo: ", resumeInfo);
   
   return (
