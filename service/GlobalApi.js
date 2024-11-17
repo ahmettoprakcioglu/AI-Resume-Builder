@@ -27,3 +27,18 @@ export async function getUserResumes(user_id) {
   }
   return userResumes;
 }
+
+export async function updateUserResume(payload, resume_id) {
+  const { data, error } = await supabase
+    .from('user-resumes')
+    .update(payload)
+    .eq('resume_id', resume_id)
+    .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error('Translation Notes could not be loaded');
+  }
+  return data;
+
+}

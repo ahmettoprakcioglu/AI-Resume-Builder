@@ -8,7 +8,6 @@ import SkillsPreview from "./preview/SkillsPreview";
 
 const ResumePreview = () => {
   const { resumeInfo } = useContext(ResumeInfoContext);
-  console.log("resumeInfo: ", resumeInfo);
   
   return (
     <div

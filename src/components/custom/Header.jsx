@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 import { UserButton, useUser } from "@clerk/clerk-react";
 
 const Header = () => {
-  const { user, isSignedIn } = useUser();
+  const { isSignedIn } = useUser();
   return (
     <div className="flex justify-between items-center p-3 px-5 shadow-md">
       <Link to='/'>
